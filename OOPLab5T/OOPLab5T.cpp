@@ -1,7 +1,6 @@
 ﻿// OOPLab5T.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -18,6 +17,7 @@ struct PIB
     string fname;
     string name;
     string lname;
+    //конструктор без параметрів
     PIB() {
         fname = "NoFirstName";
         name = "NoName";
@@ -57,9 +57,13 @@ struct PIB
         lname = ln;
         cout << " Constructor PIB(const char * ... ) \n";
     }
+
+    //деструктор
     ~PIB() {
         cout << "Destructor ~PIB() \n";
     }
+
+    //оператор присвоєння
     PIB& operator=(const PIB& s)
     {
         fname = s.fname;
@@ -68,14 +72,19 @@ struct PIB
         cout << " PIB operator=(PIB &) \n";
         return *this;
     }
+
+    //функція запису в один рядок
     string toString() {
         string ts = "PIB: " + fname + " " + name + " " + lname + " ";
         return ts;
     }
+
     bool operator==(PIB& b) {
         return name == b.name &&
             fname == b.fname && lname == b.lname ? true : false;
     }
+
+    //функція введення
     void Input() {
         cout << "Input fname "; cin >> fname;
         cout << "Input name "; cin >> name;
@@ -85,33 +94,19 @@ struct PIB
     friend istream& operator>>(istream& os, PIB& a);
 };
 
-//PROBLEM
-/*
-ostream& operator<<(ostream& os, PIB& a) {
-    os << a.fname << endl;
-    os << a.name << endl;
-    os << a.lname << endl;
-    return os;
-}
-istream& operator>>(istream& is, PIB& a) {
-    is >> a.name;
-    is >> a.fname;
-    is >> a.lname;
-    return is;
-}
-*/
-
 class Student {
 protected:
     int kurs, ID;
     PIB name;
 public:
+    //конструктор без параметрів
     Student() {
         kurs = 0;
         ID = 0;
         cout << " Default constructor Person \n";
     }
 
+    //конструктор з параметрами
     Student(int a, int w, string n) {
         kurs = a;
         ID = w;
@@ -127,12 +122,12 @@ public:
         cout << " Constructor Person(int a, int w, PIB &n) \n";
     }
 
-
-
+    //деструктор
     ~Student() {
         cout << "Destructor Person\n";
     }
 
+    //функція вибору курсу
     void setkurs(int a) {
         if (a >= 0 && a <= 6)
             kurs = a;
@@ -140,10 +135,12 @@ public:
             cout << "Age " << a << " not allow, kurs is " << kurs << endl;;
     }
 
+    //функція вибору ID
     void setID(int w) {
         ID = w;
     }
 
+    //функція запису в один рядок
     string toString() {
         string r, a, w;
         a = to_string(kurs);
@@ -152,6 +149,7 @@ public:
         return r;
     }
 
+    //функція введення
     void Input() {
         name.Input();
         cout << "Input kurs "; while (!(cin >> kurs) || (kurs < 0 || kurs > 6)) {
@@ -161,8 +159,7 @@ public:
             cout << "bad input kurs is 1 to 6 \n";
         };
 
-        cout << "Input ID "; while (!(cin >> ID) || (ID < 0 || ID > 9999999)
-            ) {
+        cout << "Input ID "; while (!(cin >> ID) || (ID < 0 || ID > 9999999)) {
 
             cin.clear();
             cin.ignore(MAXSHORT, '\n');
@@ -172,7 +169,6 @@ public:
     }
     friend ostream& operator<<(ostream& os, Student& a);
     friend istream& operator>>(istream& os, Student& a);
-
 };
 
 ostream& operator<<(ostream& os, Student& a) {
@@ -188,32 +184,40 @@ istream& operator>>(istream& is, Student& a) {
     return is;
 }
 
-
 class Student_diplomnik : public Student {
     string tem_of_diplom;
 public:
+    //коструктор без параметрів
     Student_diplomnik() {
         string tem_of_diplom = "somthing";
         cout << " Default constructor Student_diplomnik() \n";
     }
+
+    //коструктор з параметрами
     Student_diplomnik(int a, int w, string n, string i) :
         Student(a, w, n) {
         string tem_of_diplom = i;
         cout << " Constructor Student_diplomnik(int a, int w, string n, string i) \n";
     }
+
     Student_diplomnik(int a, int w, PIB& pib, string i) :
         Student(a, w, pib) {
         string tem_of_diplom = i;
         cout << " Constructor Student_diplomnik(int a, int w, PIB& pib, string i) \n";
     }
+
+    //деструктор
     ~Student_diplomnik() {
         cout << "\tDestructor Student_diplomnik\n";
     }
 
+    //функція вибору теми диплому
     void settem_of_diplom(string i) {
         tem_of_diplom = i;
 
     }
+
+    //функція запису в один рядок
     string toString() {
         string stem_of_diplom;
         stem_of_diplom = tem_of_diplom;
@@ -221,6 +225,7 @@ public:
         return s;
     }
 
+    //функція введення
     void Input() {
         Student::Input();
         cout << "Input Tem_of_diplom ";
@@ -231,6 +236,8 @@ public:
             cout << "bad input ID \n";
         };
     }
+
+    //функція виведення
     void Output() {
         cout << toString() << endl;
     }
@@ -253,6 +260,279 @@ istream& operator>>(istream& is, Student_diplomnik& a) {
     is >> a.tem_of_diplom;
     return is;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+class Kimnata {
+
+public:
+    string plosha;
+
+    //конструктор без параметрів
+    Kimnata() {
+        plosha = "0";
+    }
+
+    //конмтруктор з параметрами
+    Kimnata(string ki) {
+        plosha = ki;
+        cout << "Constructor Kimnata(string ki) \n";
+    }
+
+    //деструктор
+    ~Kimnata() {
+        cout << "Destructor ~Kimnata() \n";
+    }
+
+    //функція вводу
+    void Input() {
+        cout << "Input Ploshu kimnatu: "; cin >> plosha;
+    }
+
+    //функція запису в один рядок
+    string toString() {
+        string ts = "Plosha kimnatu: " + plosha + "";
+        return ts;
+    }
+};
+
+class odn_kvartira {
+    Kimnata plosha;
+    double kuhnia;
+    int poverh;
+public:
+    //конструктор без параметрів
+    odn_kvartira() {
+        kuhnia = 0;
+        poverh = 0;
+    }
+
+    //конструктор з параметрами
+    odn_kvartira(double ku, double plosha, int po) {
+        kuhnia = ku;
+        poverh = po;
+        plosha = plosha;
+    }
+    odn_kvartira(double ku, Kimnata& plosha, int po) {
+        kuhnia = ku;
+        poverh = po;
+        plosha = plosha;
+    }
+
+    //деструктор
+    ~odn_kvartira() {
+        cout << "Destructor odn_kvartira\n";
+    }
+
+    //функція вводу данних
+    void Input() {
+        plosha.Input();
+        cout << "Input kuhnia "; while (!(cin >> kuhnia)) {
+            cin.clear();
+            cin.ignore(MAXSHORT, '\n');
+            fflush(stdin);
+        };
+
+        cout << "Input poverh "; while (!(cin >> poverh))
+             {
+
+            cin.clear();
+            cin.ignore(MAXSHORT, '\n');
+            fflush(stdin);
+
+        };
+    }
+
+    //функція запису в один рядок
+    string toString() {
+        string r, a, w;
+        a = to_string(kuhnia);
+        w = to_string(poverh);
+        r = plosha.toString() + " Plosha kuhni: " + a + " Poverh: " + w;
+        return r;
+    }
+};
+
+class public1:public odn_kvartira {
+    string misto;
+    public:
+    //коструктор без параметрів
+    public1() {
+        string misto = "No misto";
+        cout << " Default constructor Misto() \n";
+    }
+
+    //конструктор з параметрами
+    public1(double ku, double pl, int po, string mi):
+        odn_kvartira(ku, pl, po) {
+        string misto = mi;
+        cout << " Constructor Misto(int a, int w, PIB& pib, string i) \n";
+    }
+
+   //деструктор
+    ~public1() {
+        cout << "\tDestructor public1\n";
+    }
+
+    //функція запису в один рядок
+    string toString() {
+        string smisto;
+        smisto = misto;
+        string s = odn_kvartira::toString() + " Misto: " + smisto + "\n ";
+        return s;
+    }
+
+    //функція друку
+    void Input() {
+        odn_kvartira::Input();
+        cout << "Input Misto ";
+        while (!(cin >> misto)) {
+            cin.clear();
+            cin.ignore(MAXSHORT, '\n');
+            fflush(stdin);
+
+        };
+    }
+
+    //функція виведення
+    void Output() {
+        cout << toString() << endl;
+    }
+};
+
+//////////////////////////////////////
+
+class SportGame {
+protected:
+    string name;  //назва спортивної гри
+    string players;  //кількість гравців
+
+public:
+    //конструктор класу SportGame
+    SportGame() {
+        name = "No name of sport";
+        players = "0";
+        cout << " Default constructor SportGame() \n";
+    }
+
+    //конструктор класу SportGame
+    SportGame(const std::string& n, string p) : name(n), players(p) {}
+
+    //конструктор копіювання
+    SportGame(const SportGame& other) : name(other.name), players(other.players) {}
+
+    //конструктор перенесення
+    SportGame(SportGame&& other) noexcept : name(std::move(other.name)), players(other.players) {}
+
+    //деструктор
+    ~SportGame() {}
+
+    //метод для виводу інформації про гру
+    void Output(){
+        std::cout << "Sport: " << name << ", Players: " << players << std::endl;
+    }
+
+    //метод для введення даних про гру
+    void Input() {
+        std::cout << "Enter sport name: ";
+        std::cin >> name;
+        std::cout << "Enter number of players: ";
+        std::cin >> players;
+    }
+
+    //оператор присвоювання для копіювання
+    SportGame& operator=(const SportGame& other) {
+        if (this != &other) {
+            name = other.name;
+            players = other.players;
+        }
+        return *this;
+    }
+
+    //оператор присвоювання для перенесення
+    SportGame& operator=(SportGame&& other) noexcept {
+        if (this != &other) {
+            name = std::move(other.name);
+            players = other.players;
+        }
+        return *this;
+    }
+
+    string toString() {
+        string ts = "Name of Game: " + name + " Number of players: " + players + " ";
+        return ts;
+    }
+
+    
+};
+
+class Football : public SportGame {
+private:
+    std::string team;  //назва футбольної команди
+
+public:
+    //конструктор без параметрів
+    Football() {
+        name = "No name of team";
+        players = "0";
+        cout << " Default constructor Football() \n";
+    }
+    //конструктор класу Football
+    Football(const std::string& n, string p, const std::string& t) : SportGame(n, p), team(t) {}
+
+    //конструктор копіювання
+    Football(const Football& other) : SportGame(other), team(other.team) {}
+
+    //конструктор перенесення
+    Football(Football&& other) noexcept : SportGame(std::move(other)), team(std::move(other.team)) {}
+
+    //деструктор
+    ~Football() {
+        cout << "Destructor team name";
+    }
+
+    //перевизначений метод для виводу інформації про футбольну гру
+    void Output(){
+        std::cout << "Sport: " << name << ", Players: " << players << ", Team: " << team << std::endl;
+    }
+    //Problem!!!
+    //перевизначений метод для введення даних про футбольну гру
+    void Input() {
+        SportGame::Input();////
+        cout << "Input Name of team: ";
+        while (!(cin >> team)) {
+            cin.clear();
+            cin.ignore(MAXSHORT, '\n');
+            fflush(stdin);
+
+        };
+    }
+
+    //перевизначений оператор присвоювання для копіювання
+    Football& operator=(const Football& other) {
+        if (this != &other) {
+            SportGame::operator=(other);
+            team = other.team;
+        }
+        return *this;
+    }
+
+    //перевизначений оператор присвоювання для перенесення
+    Football& operator=(Football&& other) noexcept {
+        if (this != &other) {
+            SportGame::operator=(std::move(other));
+            team = std::move(other.team);
+        }
+        return *this;
+    }
+
+    string toString() {
+        string steam;
+        steam = team;
+        string s = SportGame::toString() + " Team Name: " + steam + "\n ";
+        return s;
+    }
+};
 int main()
 {
     std::cout << " Lab #5  !\n";
@@ -266,8 +546,6 @@ int main()
         cout << "4 - Set kurse \n";
         cout << "5 - Set ID \n";
         cout << "6 - Set tem of diplom \n";
-        cout << "7 - Input from file \n";
-        cout << "8 - Input array of Student-diplomnik and save file \n";
         cout << "q - Quit \n";
         cout << "Ваш вибiр (you choice ): ";
         cin >> Choice;
@@ -348,65 +626,41 @@ int main()
             cout << " New recoeds " << t.toString() << endl;
         }
                 break;
-        case '7': {
-            ifstream fileStudent_diplomnik("fileStudent-diplomnik.txt");
-            int n, i;
-            fileStudent_diplomnik >> n;
-            if (n > 0)
-            {
-                Student_diplomnik* pMas;
-                pMas = new Student_diplomnik[n];
-                for (i = 0; i < n; i++)
-                    fileStudent_diplomnik >> pMas[i];
-                cout << "Student-diplomnik in file \n";
-                for (i = 0; i < n; i++)
-                    cout << pMas[i].toString() << endl;
-                cout << " delete \n";
-                delete[] pMas;
-            }
-        }
-                break;
-        case '8': {
-            ofstream fileStudent_diplomnik("fileStudent_diplomnik1.txt");
-            int n, i;
-            cout << " Input num Student-diplomnik ";
-            while (!(cin >> n) || n < 0) {
-                cin.clear();
-                cin.ignore(MAXSHORT, '\n');
-                fflush(stdin);
-                cout << "bad input num \n";
-            };
-            Student_diplomnik* pMas;
-            pMas = new Student_diplomnik[n];
-            for (i = 0; i < n; i++)
-                pMas[i].Input();
-            cout << "Student-diplomnik in input e \n";
-            for (i = 0; i < n; i++)
-                cout << pMas[i].toString() << endl;
-            fileStudent_diplomnik << n << endl;
-            for (i = 0; i < n; i++)
-                fileStudent_diplomnik << pMas[i];
-            cout << "Student-diplomnik save in file \n";
-            cout << " delete \n";
-            delete[] pMas;
-        }
+       
         case 'q': break;
         default:
             cout << " ??? Choice {1,2, ..., 7 or q} \n";
         }
     } while (Choice != 'q');
     cout << " Exit from test! Bye! \n";
-    return 0;
 
-    //  Код виконання завдань
-    //  Головне меню завдань
-    //  Функції та класи можуть знаходитись в інших файлах проекту
-    /*
-    int chain = 2;
-    if (chain == 1) chain = mainExample1();
-    if (chain == 2) chain = mainExample2();
-    if (chain == 3) chain = mainExample3();
-    if (chain == 4) chain = mainExample4();
-    if (chain == 5) chain = mainExample5();
-    */
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //завдання 2
+    cout << " Task 2! \n";
+
+    //виведення конструктора без параметрів
+    public1 test;
+    cout << test.toString() << " \n";
+
+    //виведення функції для вводу
+    cout << " Введіть : Площу квартири, Полщу кухні, Поверх, Назву міста: \n";
+    test.Input();
+    cout << " Введено " << test.toString() << " \n";
+
+    //завдання 3
+    cout << " Task 3! \n"; 
+
+    //виведення конструктора без параметрів
+    Football test1;
+    cout << test1.toString() << " \n";
+
+    //виведення програми для вводу даних
+    cout << " Введіть : Вид спорту, кількість усасників, назву команди: \n";
+    test1.Input();
+    cout << " Введено " << test1.toString() << " \n";
+
+    return 0;
 }
